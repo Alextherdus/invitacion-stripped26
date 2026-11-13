@@ -1,0 +1,473 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #f1eeee;
+    color: #202020;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+}
+
+.page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 28px 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+}
+
+.top-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+
+/* =================================
+   DISCO COMPACTO — CD ORIGINAL
+================================= */
+
+.album-container {
+    position: relative;
+    width: min(88vw, 440px);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: auto;
+    perspective: 1400px;
+}
+
+.disc {
+    position: absolute;
+    width: 72%;
+    aspect-ratio: 1 / 1;
+
+    /* Posición final: desplazado hacia la derecha */
+    right: -5%;
+
+    top: 50%;
+
+    /* Posición inicial del disco */
+    transform: translateY(-50%);
+
+    transform-origin: center center;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 1;
+
+    /* Imagen original del CD */
+    background-image: url("assets/cd.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    box-shadow:
+        0 12px 28px rgba(0,0,0,0.20),
+        0 3px 8px rgba(0,0,0,0.10);
+
+    /*
+       El disco permanece oculto detrás de la funda
+       hasta que JavaScript inicia la expulsión.
+    */
+    right: 10%;
+    opacity: 1;
+    animation: none;
+}
+
+/* La imagen original ya contiene sus detalles */
+.disc-grooves,
+.disc-label,
+.disc-hole {
+    display: none;
+}
+
+
+/* =================================
+   EXPULSIÓN DEL DISCO HACIA LA DERECHA
+================================= */
+
+.disc.ejecting {
+    animation:
+        discEject
+        1.65s
+        cubic-bezier(0.22, 0.75, 0.25, 1)
+        forwards;
+}
+
+@keyframes discEject {
+
+    from {
+        right: 10%;
+        opacity: 1;
+        transform: translateY(-50%) rotate(0deg);
+    }
+
+    to {
+        right: -5%;
+        opacity: 1;
+        transform: translateY(-50%) rotate(0deg);
+    }
+
+}
+
+
+/* =================================
+   GIRO CONTINUO
+================================= */
+
+.disc.spinning {
+    right: -5%;
+    animation: discRotation 12s linear infinite;
+}
+
+@keyframes discRotation {
+
+    from {
+        transform: translateY(-50%) rotate(0deg);
+    }
+
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+
+}
+
+
+/* RESPETAR PREFERENCIAS DE MOVIMIENTO */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .disc.ejecting,
+    .disc.spinning {
+        animation: none;
+    }
+
+    .disc {
+        right: -5%;
+        opacity: 1;
+    }
+
+}
+
+
+/* =================================
+   FUNDA 3D — JEWEL CASE
+================================= */
+
+.album-cover {
+    position: relative;
+    width: 82%;
+    aspect-ratio: 1 / 1;
+    z-index: 2;
+
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+
+    outline: none;
+
+    perspective: 1100px;
+}
+
+.album-cover:active {
+    cursor: grabbing;
+}
+
+.cover-inner {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
+    transform-style: preserve-3d;
+    transform-origin: center center;
+
+    transform:
+        rotateX(0deg)
+        rotateY(0deg);
+
+    transition:
+        transform 0.75s cubic-bezier(0.22, 0.75, 0.25, 1);
+
+    will-change: transform;
+
+    box-shadow:
+        2px 5px 14px rgba(0,0,0,0.12);
+}
+
+.album-cover.dragging .cover-inner {
+    transition: none;
+}
+
+
+/* =================================
+   CANTOS TRANSPARENTES
+================================= */
+
+.cover-inner::before,
+.cover-inner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 10px;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(105,115,130,0.55),
+            rgba(255,255,255,0.92) 22%,
+            rgba(190,205,220,0.65) 48%,
+            rgba(255,255,255,0.95) 75%,
+            rgba(110,120,140,0.55)
+        );
+
+    border-top: 1px solid rgba(255,255,255,0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.95);
+
+    box-shadow:
+        inset 0 0 4px rgba(255,255,255,0.9),
+        0 0 3px rgba(90,100,120,0.18);
+}
+
+.cover-inner::before {
+    right: -10px;
+    transform-origin: left center;
+    transform: rotateY(90deg);
+}
+
+.cover-inner::after {
+    left: -10px;
+    transform-origin: right center;
+    transform: rotateY(-90deg);
+}
+
+
+/* =================================
+   CARAS DE LA CAJA
+================================= */
+
+.cover-face {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    overflow: hidden;
+}
+
+
+/* PORTADA */
+
+.cover-front {
+    background: #fff;
+    border: 1px solid rgba(220,220,225,0.9);
+    transform: translateZ(5px);
+}
+
+.cover-front img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    background: #fff;
+    pointer-events: none;
+}
+
+
+/* CONTRAPORTADA */
+
+.cover-back {
+    position: absolute;
+    background: #e8e5e5;
+    border: 1px solid rgba(220,220,225,0.9);
+
+    transform:
+        rotateY(180deg)
+        translateZ(5px);
+}
+
+.cover-back > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+
+/* =================================
+   REFLEJOS DE PLÁSTICO TRANSPARENTE
+================================= */
+
+.cover-face::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            118deg,
+            rgba(255,255,255,0.55) 0%,
+            rgba(255,255,255,0.18) 4%,
+            transparent 18%,
+            transparent 72%,
+            rgba(255,255,255,0.12) 88%,
+            rgba(255,255,255,0.48) 100%
+        );
+
+    box-shadow:
+        inset 0 0 2px rgba(255,255,255,0.95),
+        inset 0 0 12px rgba(255,255,255,0.16);
+}
+
+
+/* REFLEJO DE ESQUINA SUPERIOR */
+
+.cover-front::before,
+.cover-back::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.45) 0%,
+            rgba(255,255,255,0.12) 3%,
+            transparent 12%
+        );
+
+    z-index: 2;
+}
+
+
+/* =================================
+   ENLACE INVISIBLE DEL QR
+================================= */
+
+.qr-hotspot {
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+    width: 23%;
+    height: 23%;
+
+    z-index: 5;
+    display: block;
+
+    background: transparent;
+    cursor: pointer;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+.qr-hotspot:focus-visible {
+    outline: 2px dashed #777;
+    outline-offset: 3px;
+}
+
+
+/* =================================
+   REPRODUCTOR
+================================= */
+
+.music-player {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #c9c5c5;
+    padding-top: 15px;
+}
+
+.song-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.player-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #777;
+}
+
+#song-title {
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.player-controls {
+    display: flex;
+    gap: 16px;
+}
+
+.player-controls button {
+    background: none;
+    border: none;
+    font-size: 19px;
+    cursor: pointer;
+    color: #222;
+}
+
+
+/* =================================
+   PIE DE PÁGINA
+================================= */
+
+.bottom-text {
+    margin-top: 20px;
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: #777;
+}
+
+
+/* =================================
+   TELÉFONOS
+================================= */
+
+@media (max-width: 480px) {
+
+    .page {
+        padding: 22px 18px;
+    }
+
+    .top-header {
+        font-size: 8px;
+        letter-spacing: 1px;
+    }
+
+    .album-container {
+        width: 94vw;
+        max-width: 440px;
+    }
+
+    .music-player {
+        padding-top: 12px;
+    }
+
+}

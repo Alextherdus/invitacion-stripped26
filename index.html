@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>STRIPPED — Dani's Birthday Edition</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="page">
+
+        <header class="top-header">
+            <span>DANI RAZO</span>
+            <span>BIRTHDAY EDITION · 2026</span>
+        </header>
+
+        <section class="album-container">
+
+            <!-- DISCO -->
+
+            <div class="disc">
+                <div class="disc-grooves"></div>
+
+                <div class="disc-label">
+                    <span>DANI</span>
+                    <small>STRIPPED</small>
+                </div>
+
+                <div class="disc-hole"></div>
+            </div>
+
+
+            <!-- FUNDA INTERACTIVA -->
+
+            <div
+                class="album-cover"
+                id="album-cover"
+                role="button"
+                tabindex="0"
+                aria-label="Arrastra para descubrir la invitación"
+            >
+
+                <div class="cover-inner" id="cover-inner">
+
+                    <!-- PORTADA -->
+
+                    <div class="cover-face cover-front">
+
+                        <img
+                            src="assets/portada.jpg"
+                            alt="Dani — Stripped Birthday Edition"
+                        >
+
+                    </div>
+
+
+                    <!-- CONTRAPORTADA CON FOTO PERSONALIZADA -->
+
+                    <div class="cover-face cover-back">
+
+                        <img
+                            src="assets/contraportada.jpg"
+                            alt="Contraportada de la invitación de cumpleaños"
+                        >
+
+                        <!-- ZONA INVISIBLE DEL QR -->
+
+                        <a
+                            class="qr-hotspot"
+                            href="https://maps.app.goo.gl/zAR4qGoBALCJjZjS7"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Abrir ubicación de la fiesta en Google Maps"
+                            title="Ver ubicación en Google Maps"
+                        ></a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- REPRODUCTOR -->
+
+        <footer class="music-player">
+
+            <div class="song-info">
+
+                <span class="player-label">NOW PLAYING</span>
+
+                <span id="song-title">
+                    STRIPPED · BIRTHDAY EDITION
+                </span>
+
+            </div>
+
+            <div class="player-controls">
+
+                <button id="play-button" aria-label="Reproducir">
+                    ▶
+                </button>
+
+                <button id="pause-button" aria-label="Pausar">
+                    Ⅱ
+                </button>
+
+            </div>
+
+        </footer>
+
+
+        <div class="bottom-text">
+            DRAG TO DISCOVER · EST. 2026
+        </div>
+
+    </main>
+
+
+    <!-- AUDIO -->
+
+    <audio id="album-audio" preload="none"></audio>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
