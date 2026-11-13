@@ -146,7 +146,7 @@ selectRandomTrack();
 
 
 /* =================================
-   ANIMACIÓN DE EXPULSIÓN DEL CD
+   EXPULSIÓN Y GIRO DEL CD
 ================================= */
 
 const disc = document.querySelector(".disc");
@@ -165,33 +165,47 @@ if (disc) {
         discAnimationStarted = true;
 
         disc.classList.remove("ejecting");
+
+        /*
+           Fuerza al navegador a reconocer
+           el cambio entre las dos animaciones.
+        */
+        void disc.offsetWidth;
+
         disc.classList.add("spinning");
+
+    }
+
+    function ejectDisc() {
+
+        if (discAnimationStarted) return;
+
+        disc.classList.remove("spinning");
+        disc.classList.add("ejecting");
+
+        /*
+           Respaldo por si el navegador móvil
+           no dispara animationend.
+        */
+        setTimeout(
+            startDiscSpinning,
+            EJECT_DURATION + 150
+        );
 
     }
 
     window.addEventListener("load", () => {
 
-        setTimeout(() => {
-
-            disc.classList.add("ejecting");
-
-            /*
-               Respaldo independiente del evento
-               animationend.
-            */
-
-            setTimeout(
-                startDiscSpinning,
-                EJECT_DURATION + 100
-            );
-
-        }, EJECT_DELAY);
+        setTimeout(ejectDisc, EJECT_DELAY);
 
     });
 
     disc.addEventListener("animationend", (event) => {
 
-        if (event.animationName === "discEject") {
+        if (
+            event.animationName === "discEject" ||
+            event.animationName === "mobileDiscEject"
+        ) {
             startDiscSpinning();
         }
 
@@ -271,18 +285,10 @@ if (albumCover && coverInner) {
 
     albumCover.addEventListener("pointerdown", (event) => {
 
-        /*
-           No iniciar el giro si se pulsa
-           directamente sobre el QR.
-        */
         if (event.target.closest(".qr-hotspot")) {
             return;
         }
 
-        /*
-           Solo aceptar el botón izquierdo
-           del mouse.
-        */
         if (event.pointerType === "mouse" && event.button !== 0) {
             return;
         }
@@ -300,10 +306,6 @@ if (albumCover && coverInner) {
 
         albumCover.classList.add("dragging");
 
-        /*
-           Mantiene el seguimiento del puntero
-           aunque salga de los límites de la funda.
-        */
         albumCover.setPointerCapture(event.pointerId);
 
     });
@@ -349,17 +351,9 @@ if (albumCover && coverInner) {
 
         activePointerId = null;
 
-        /*
-           Busca la cara más cercana:
-           portada o contraportada.
-        */
         const nearestFace =
             Math.round(currentRotationY / 180) * 180;
 
-        /*
-           Al soltar, elimina la inclinación
-           vertical y acomoda la funda.
-        */
         updateRotation(nearestFace, 0);
 
     }
