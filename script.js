@@ -10,7 +10,9 @@ const pauseButton = document.getElementById("pause-button");
 const songTitle = document.getElementById("song-title");
 
 
-/* LISTA COMPLETA DEL ÁLBUM */
+/* =================================
+   LISTA COMPLETA DEL ÁLBUM
+================================= */
 
 const tracks = [
     { title: "Stripped Intro", file: "assets/audio/01-stripped-intro.mp3" },
@@ -137,13 +139,13 @@ audio.addEventListener("ended", () => {
 
 /* =================================
    CANCIÓN INICIAL
+   NO HAY REPRODUCCIÓN AUTOMÁTICA
 ================================= */
 
 selectRandomTrack();
 
-window.addEventListener("load", () => {
-    playMusic();
-});
+// La música comienza únicamente cuando
+// la persona pulsa el botón PLAY.
 
 
 /* =================================
@@ -177,9 +179,9 @@ if (disc) {
             disc.classList.add("ejecting");
 
             /*
-               Respaldo independiente del evento animationend.
-               Evita que el disco se quede quieto si el navegador
-               no detecta correctamente el final de la expulsión.
+                Respaldo independiente del evento animationend.
+                Evita que el disco se quede quieto si el navegador
+                no detecta correctamente el final de la expulsión.
             */
 
             setTimeout(
@@ -192,8 +194,8 @@ if (disc) {
     });
 
     /*
-       Si el navegador detecta el final de la animación,
-       el giro comienza inmediatamente.
+        Si el navegador detecta el final de la animación,
+        el giro comienza inmediatamente.
     */
 
     disc.addEventListener("animationend", (event) => {
@@ -226,7 +228,9 @@ let currentRotationY = 0;
 let currentRotationX = 0;
 
 
-/* SENSIBILIDAD */
+/* =================================
+   SENSIBILIDAD
+================================= */
 
 const HORIZONTAL_SENSITIVITY = 0.32;
 const VERTICAL_SENSITIVITY = 0.18;
@@ -234,7 +238,9 @@ const VERTICAL_SENSITIVITY = 0.18;
 const MAX_VERTICAL_TILT = 8;
 
 
-/* APLICAR ROTACIÓN */
+/* =================================
+   APLICAR ROTACIÓN
+================================= */
 
 function updateRotation(rotationY, rotationX) {
 
@@ -251,7 +257,9 @@ function updateRotation(rotationY, rotationX) {
 }
 
 
-/* INICIAR ARRASTRE */
+/* =================================
+   INICIAR ARRASTRE
+================================= */
 
 albumCover.addEventListener("pointerdown", (event) => {
 
@@ -278,7 +286,9 @@ albumCover.addEventListener("pointerdown", (event) => {
 });
 
 
-/* MOVIMIENTO */
+/* =================================
+   MOVIMIENTO
+================================= */
 
 albumCover.addEventListener("pointermove", (event) => {
 
@@ -298,7 +308,9 @@ albumCover.addEventListener("pointermove", (event) => {
 });
 
 
-/* SOLTAR Y ACOMODAR */
+/* =================================
+   SOLTAR Y ACOMODAR
+================================= */
 
 function finishDragging() {
 
@@ -318,7 +330,9 @@ function finishDragging() {
 }
 
 
-/* EVENTOS DEL PUNTERO */
+/* =================================
+   EVENTOS DEL PUNTERO
+================================= */
 
 albumCover.addEventListener("pointerup", finishDragging);
 
@@ -333,7 +347,9 @@ albumCover.addEventListener("lostpointercapture", () => {
 });
 
 
-/* CONTROL CON TECLADO */
+/* =================================
+   CONTROL CON TECLADO
+================================= */
 
 albumCover.addEventListener("keydown", (event) => {
 
