@@ -120,7 +120,8 @@ body {
 .disc {
     position: absolute;
 
-    width: 72%;
+    /* AUMENTO DEL TAMAÑO */
+    width: 82%;
     aspect-ratio: 1 / 1;
 
     top: 50%;
@@ -147,12 +148,16 @@ body {
     display: none;
 }
 
+/* EXPULSIÓN */
+
 .disc.ejecting {
     animation: discEject 1.65s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
 }
 
+/* POSICIÓN FINAL MÁS CERCANA A LA FUNDA */
+
 .disc.spinning {
-    right: -50%;
+    right: -30%;
     animation: discRotation 12s linear infinite;
 }
 
@@ -162,7 +167,7 @@ body {
     }
 
     to {
-        right: -50%;
+        right: -30%;
     }
 }
 
@@ -192,11 +197,6 @@ body {
     cursor: grab;
 
     transform-style: preserve-3d;
-
-    /*
-       El área de la funda queda reservada
-       para el gesto de rotación.
-    */
     touch-action: none;
 
     user-select: none;
@@ -219,10 +219,6 @@ body {
 
     transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
 
-    /*
-       Capas de sombra para simular
-       el grosor del plástico.
-    */
     box-shadow:
         1px 1px 0 rgba(255, 255, 255, 0.95),
         2px 2px 0 rgba(175, 175, 175, 0.75),
@@ -232,10 +228,6 @@ body {
         7px 10px 18px rgba(0, 0, 0, 0.18);
 }
 
-/*
-   Capa posterior: da cuerpo a la funda
-   cuando se observa desde un ángulo.
-*/
 .cover-inner::before {
     content: "";
     position: absolute;
@@ -255,9 +247,6 @@ body {
     pointer-events: none;
 }
 
-/*
-   Reflejo y borde del plástico frontal.
-*/
 .cover-inner::after {
     content: "";
     position: absolute;
@@ -287,10 +276,6 @@ body {
 
     border: 1px solid rgba(255, 255, 255, 0.85);
 
-    /*
-       Las dos caras quedan separadas
-       ligeramente para generar profundidad.
-    */
     transform-style: preserve-3d;
 }
 
@@ -310,10 +295,6 @@ body {
     display: block;
     object-fit: contain;
 
-    /*
-       Evita que el navegador intente
-       arrastrar las imágenes directamente.
-    */
     pointer-events: none;
     user-select: none;
     -webkit-user-drag: none;
@@ -337,16 +318,11 @@ body {
     cursor: pointer;
 
     z-index: 8;
-
-    /*
-       El enlace sigue siendo interactivo,
-       aunque la imagen no reciba el puntero.
-    */
     pointer-events: auto;
 }
 
 /* =========================
-   ESTADO DURANTE EL ARRASTRE
+   ARRASTRE
 ========================= */
 
 .album-cover.dragging {
