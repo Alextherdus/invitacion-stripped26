@@ -6,13 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#f2eeee">
     <title>Birthday Invitation · Stripped</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=5">
 </head>
 
 <body>
     <main class="page">
 
-        <!-- REPRODUCTOR SUPERIOR -->
         <section class="music-player">
             <div class="player-label">NOW PLAYING</div>
 
@@ -31,26 +30,31 @@
             </div>
         </section>
 
-        <!-- ÁLBUM -->
         <section class="album-container">
 
-            <!-- CD -->
-            <div class="disc">
+            <div class="disc" aria-hidden="true">
                 <div class="disc-grooves"></div>
                 <div class="disc-label"></div>
                 <div class="disc-hole"></div>
             </div>
 
-            <!-- PORTADA INTERACTIVA -->
             <div class="album-cover" id="album-cover">
                 <div class="cover-inner" id="cover-inner">
 
                     <div class="cover-front">
-                        <img src="assets/portada.jpg" alt="Portada del álbum">
+                        <img
+                            src="assets/portada.jpg"
+                            alt="Portada del álbum"
+                            draggable="false"
+                        >
                     </div>
 
                     <div class="cover-back">
-                        <img src="assets/contraportada.jpg" alt="Contraportada del álbum">
+                        <img
+                            src="assets/contraportada.jpg"
+                            alt="Contraportada del álbum"
+                            draggable="false"
+                        >
 
                         <a
                             class="qr-hotspot"
@@ -66,16 +70,14 @@
 
         </section>
 
-        <!-- INDICACIÓN INFERIOR -->
         <div class="bottom-text">
             DRAG TO DISCOVER
         </div>
 
-        <!-- AUDIO -->
         <audio id="album-audio" preload="none"></audio>
 
     </main>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=5"></script>
 </body>
 </html>
