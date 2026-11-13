@@ -152,7 +152,7 @@ body {
 }
 
 .disc.spinning {
-    right: -5%;
+    right: -50%;
     animation: discRotation 12s linear infinite;
 }
 
@@ -162,7 +162,7 @@ body {
     }
 
     to {
-        right: -5%;
+        right: -50%;
     }
 }
 
