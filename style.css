@@ -16,31 +16,25 @@ body {
     min-height: 100vh;
     min-height: 100svh;
     padding: 35px 20px 28px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 22px;
-
     overflow: hidden;
     position: relative;
 }
 
-/* =========================
-   REPRODUCTOR
-========================= */
+/* REPRODUCTOR */
 
 .music-player {
     width: min(88vw, 440px);
     min-height: 60px;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 8px;
-
     position: relative;
     z-index: 5;
     text-align: center;
@@ -75,18 +69,14 @@ body {
 .player-controls button {
     width: 32px;
     height: 32px;
-
     display: grid;
     place-items: center;
-
     border: 1px solid rgba(30, 30, 30, 0.5);
     border-radius: 50%;
     background: transparent;
-
     color: #222;
     font-size: 11px;
     cursor: pointer;
-
     transition: background 0.2s ease, transform 0.2s ease;
 }
 
@@ -100,46 +90,33 @@ body {
     outline-offset: 3px;
 }
 
-/* =========================
-   ÁLBUM
-========================= */
+/* CONTENEDOR DEL ÁLBUM */
 
 .album-container {
     width: min(88vw, 440px);
     aspect-ratio: 1 / 1;
-
     position: relative;
     flex: 0 0 auto;
-
     perspective: 1400px;
     margin: 0;
 }
 
-/* =========================
-   CD ORIGINAL
-========================= */
+/* CD */
 
 .disc {
     position: absolute;
-
     width: 82%;
     aspect-ratio: 1 / 1;
-
     top: 50%;
     right: 10%;
-
     transform: translateY(-50%);
-
     border-radius: 50%;
     z-index: 1;
-
     background-image: url("assets/cd.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
     box-shadow: 5px 8px 22px rgba(0, 0, 0, 0.18);
-
     will-change: transform;
 }
 
@@ -148,8 +125,6 @@ body {
 .disc-hole {
     display: none;
 }
-
-/* EXPULSIÓN EN ESCRITORIO */
 
 .disc.ejecting {
     animation: discEject 1.65s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
@@ -180,24 +155,17 @@ body {
     }
 }
 
-/* =========================
-   FUNDA 3D
-========================= */
+/* FUNDA 3D */
 
 .album-cover {
     position: absolute;
     inset: 0;
-
     width: 100%;
     height: 100%;
-
     z-index: 2;
-
     cursor: grab;
-
     transform-style: preserve-3d;
     touch-action: none;
-
     user-select: none;
     -webkit-user-select: none;
     -webkit-tap-highlight-color: transparent;
@@ -210,14 +178,10 @@ body {
 .cover-inner {
     width: 100%;
     height: 100%;
-
     position: relative;
-
     transform-style: preserve-3d;
     transform: rotateX(0deg) rotateY(0deg);
-
     transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
-
     box-shadow:
         1px 1px 0 rgba(255, 255, 255, 0.95),
         2px 2px 0 rgba(175, 175, 175, 0.75),
@@ -231,18 +195,14 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-
     background: #d9d9d9;
     border: 1px solid rgba(255, 255, 255, 0.9);
-
     transform: translateZ(-4px);
-
     box-shadow:
         1px 1px 0 #aaa,
         2px 2px 0 #eee,
         3px 3px 0 #aaa,
         4px 4px 0 #eee;
-
     pointer-events: none;
 }
 
@@ -250,11 +210,8 @@ body {
     content: "";
     position: absolute;
     inset: 2px;
-
     border: 1px solid rgba(255, 255, 255, 0.48);
-
     transform: translateZ(5px);
-
     pointer-events: none;
     z-index: 5;
 }
@@ -263,18 +220,13 @@ body {
 .cover-back {
     position: absolute;
     inset: 0;
-
     width: 100%;
     height: 100%;
-
     background: #fff;
     overflow: hidden;
-
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-
     border: 1px solid rgba(255, 255, 255, 0.85);
-
     transform-style: preserve-3d;
 }
 
@@ -290,39 +242,29 @@ body {
 .cover-back img {
     width: 100%;
     height: 100%;
-
     display: block;
     object-fit: contain;
-
     pointer-events: none;
     user-select: none;
     -webkit-user-drag: none;
     -webkit-user-select: none;
 }
 
-/* =========================
-   QR INVISIBLE
-========================= */
+/* QR INVISIBLE */
 
 .qr-hotspot {
     position: absolute;
-
     width: 17%;
     height: 17%;
-
     right: 5%;
     bottom: 5%;
-
     display: block;
     cursor: pointer;
-
     z-index: 8;
     pointer-events: auto;
 }
 
-/* =========================
-   ARRASTRE
-========================= */
+/* ARRASTRE */
 
 .album-cover.dragging {
     cursor: grabbing;
@@ -332,23 +274,17 @@ body {
     transition: none;
 }
 
-/* =========================
-   TEXTO INFERIOR
-========================= */
+/* TEXTO INFERIOR */
 
 .bottom-text {
     margin-top: 3px;
-
     font-size: 11px;
     letter-spacing: 4px;
     color: #777;
-
     text-align: center;
 }
 
-/* =========================
-   TABLET
-========================= */
+/* TABLET */
 
 @media (min-width: 481px) and (max-width: 800px) {
     .album-container {
@@ -356,9 +292,7 @@ body {
     }
 }
 
-/* =========================
-   TELÉFONOS
-========================= */
+/* TELÉFONOS */
 
 @media (max-width: 480px) {
 
@@ -366,8 +300,6 @@ body {
         padding: 24px 10px;
         gap: 17px;
     }
-
-    /* REPRODUCTOR */
 
     .music-player {
         width: 96vw;
@@ -400,37 +332,33 @@ body {
         font-size: 12px;
     }
 
-    /* CONTENEDOR DEL ÁLBUM */
-
     .album-container {
         width: 100vw;
         aspect-ratio: 1 / 1;
     }
 
     /*
-       FUNDA:
-       Conserva su tamaño y se coloca
-       hacia el lado izquierdo.
+       CORRECCIÓN:
+       La funda mide 75% de ancho Y 75% de alto.
+       Así conserva su forma cuadrada.
     */
 
     .album-cover {
         width: 75%;
-        height: 100%;
-
+        height: 75%;
         left: 3%;
+        top: 12.5%;
         right: auto;
     }
 
     /*
-       CD:
-       Comienza casi oculto detrás de la funda.
-       Termina con una parte claramente visible
-       a la derecha, sin salir de la pantalla.
+       CD detrás de la funda.
+       Se desplaza hacia la derecha,
+       conservando su forma circular.
     */
 
     .disc {
         width: 82%;
-
         left: 0;
         right: auto;
     }
@@ -442,7 +370,6 @@ body {
     .disc.spinning {
         left: 18%;
         right: auto;
-
         animation: discRotation 12s linear infinite;
     }
 
@@ -456,8 +383,6 @@ body {
         }
     }
 
-    /* INDICACIÓN INFERIOR */
-
     .bottom-text {
         margin-top: 3px;
         font-size: 12px;
@@ -465,9 +390,7 @@ body {
     }
 }
 
-/* =========================
-   TELÉFONOS PEQUEÑOS
-========================= */
+/* TELÉFONOS PEQUEÑOS */
 
 @media (max-width: 360px) {
 
@@ -492,9 +415,7 @@ body {
     }
 }
 
-/* =========================
-   ACCESIBILIDAD
-========================= */
+/* ACCESIBILIDAD */
 
 @media (prefers-reduced-motion: reduce) {
     .cover-inner {
