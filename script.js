@@ -139,13 +139,10 @@ audio.addEventListener("ended", () => {
 
 /* =================================
    CANCIÓN INICIAL
-   NO HAY REPRODUCCIÓN AUTOMÁTICA
+   SIN REPRODUCCIÓN AUTOMÁTICA
 ================================= */
 
 selectRandomTrack();
-
-// La música comienza únicamente cuando
-// la persona pulsa el botón PLAY.
 
 
 /* =================================
@@ -179,9 +176,8 @@ if (disc) {
             disc.classList.add("ejecting");
 
             /*
-                Respaldo independiente del evento animationend.
-                Evita que el disco se quede quieto si el navegador
-                no detecta correctamente el final de la expulsión.
+               Respaldo independiente del evento
+               animationend.
             */
 
             setTimeout(
@@ -192,11 +188,6 @@ if (disc) {
         }, EJECT_DELAY);
 
     });
-
-    /*
-        Si el navegador detecta el final de la animación,
-        el giro comienza inmediatamente.
-    */
 
     disc.addEventListener("animationend", (event) => {
 
@@ -210,7 +201,7 @@ if (disc) {
 
 
 /* =================================
-   FUNDA 3D — MOVIMIENTO LIBRE
+   FUNDA 3D — ARRASTRE LIBRE
 ================================= */
 
 const albumCover = document.getElementById("album-cover");
@@ -227,12 +218,14 @@ let startRotationX = 0;
 let currentRotationY = 0;
 let currentRotationX = 0;
 
+let activePointerId = null;
+
 
 /* =================================
-   SENSIBILIDAD
+   SENSIBILIDAD DEL MOVIMIENTO
 ================================= */
 
-const HORIZONTAL_SENSITIVITY = 0.32;
+const HORIZONTAL_SENSITIVITY = 0.38;
 const VERTICAL_SENSITIVITY = 0.18;
 
 const MAX_VERTICAL_TILT = 8;
@@ -258,110 +251,154 @@ function updateRotation(rotationY, rotationX) {
 
 
 /* =================================
-   INICIAR ARRASTRE
+   EVITAR ARRASTRE NATIVO DE IMÁGENES
 ================================= */
 
-albumCover.addEventListener("pointerdown", (event) => {
+if (albumCover) {
 
-    if (event.target.closest(".qr-hotspot")) {
-        return;
-    }
-
-    if (event.pointerType === "mouse" && event.button !== 0) {
-        return;
-    }
-
-    isDragging = true;
-
-    startX = event.clientX;
-    startY = event.clientY;
-
-    startRotationY = currentRotationY;
-    startRotationX = currentRotationX;
-
-    albumCover.classList.add("dragging");
-
-    albumCover.setPointerCapture(event.pointerId);
-
-});
-
-
-/* =================================
-   MOVIMIENTO
-================================= */
-
-albumCover.addEventListener("pointermove", (event) => {
-
-    if (!isDragging) return;
-
-    const deltaX = event.clientX - startX;
-    const deltaY = event.clientY - startY;
-
-    const newRotationY =
-        startRotationY + deltaX * HORIZONTAL_SENSITIVITY;
-
-    const newRotationX =
-        startRotationX - deltaY * VERTICAL_SENSITIVITY;
-
-    updateRotation(newRotationY, newRotationX);
-
-});
-
-
-/* =================================
-   SOLTAR Y ACOMODAR
-================================= */
-
-function finishDragging() {
-
-    if (!isDragging) return;
-
-    isDragging = false;
-
-    albumCover.classList.remove("dragging");
-
-    const nearestFace =
-        Math.round(currentRotationY / 180) * 180;
-
-    currentRotationX = 0;
-
-    updateRotation(nearestFace, 0);
+    albumCover.addEventListener("dragstart", (event) => {
+        event.preventDefault();
+    });
 
 }
 
 
 /* =================================
-   EVENTOS DEL PUNTERO
+   INICIAR ARRASTRE
 ================================= */
 
-albumCover.addEventListener("pointerup", finishDragging);
+if (albumCover && coverInner) {
 
-albumCover.addEventListener("pointercancel", finishDragging);
+    albumCover.addEventListener("pointerdown", (event) => {
 
-albumCover.addEventListener("lostpointercapture", () => {
+        /*
+           No iniciar el giro si se pulsa
+           directamente sobre el QR.
+        */
+        if (event.target.closest(".qr-hotspot")) {
+            return;
+        }
 
-    if (isDragging) {
-        finishDragging();
-    }
-
-});
-
-
-/* =================================
-   CONTROL CON TECLADO
-================================= */
-
-albumCover.addEventListener("keydown", (event) => {
-
-    if (event.key === "Enter" || event.key === " ") {
+        /*
+           Solo aceptar el botón izquierdo
+           del mouse.
+        */
+        if (event.pointerType === "mouse" && event.button !== 0) {
+            return;
+        }
 
         event.preventDefault();
 
+        isDragging = true;
+        activePointerId = event.pointerId;
+
+        startX = event.clientX;
+        startY = event.clientY;
+
+        startRotationY = currentRotationY;
+        startRotationX = currentRotationX;
+
+        albumCover.classList.add("dragging");
+
+        /*
+           Mantiene el seguimiento del puntero
+           aunque salga de los límites de la funda.
+        */
+        albumCover.setPointerCapture(event.pointerId);
+
+    });
+
+
+    /* =================================
+       MOVIMIENTO DE LA FUNDA
+    ================================= */
+
+    albumCover.addEventListener("pointermove", (event) => {
+
+        if (!isDragging) return;
+
+        if (event.pointerId !== activePointerId) return;
+
+        event.preventDefault();
+
+        const deltaX = event.clientX - startX;
+        const deltaY = event.clientY - startY;
+
+        const newRotationY =
+            startRotationY + deltaX * HORIZONTAL_SENSITIVITY;
+
+        const newRotationX =
+            startRotationX - deltaY * VERTICAL_SENSITIVITY;
+
+        updateRotation(newRotationY, newRotationX);
+
+    });
+
+
+    /* =================================
+       SOLTAR Y ACOMODAR LA FUNDA
+    ================================= */
+
+    function finishDragging() {
+
+        if (!isDragging) return;
+
+        isDragging = false;
+
+        albumCover.classList.remove("dragging");
+
+        activePointerId = null;
+
+        /*
+           Busca la cara más cercana:
+           portada o contraportada.
+        */
         const nearestFace =
             Math.round(currentRotationY / 180) * 180;
 
-        updateRotation(nearestFace + 180, 0);
+        /*
+           Al soltar, elimina la inclinación
+           vertical y acomoda la funda.
+        */
+        updateRotation(nearestFace, 0);
 
     }
 
-});
+
+    /* =================================
+       EVENTOS DEL PUNTERO
+    ================================= */
+
+    albumCover.addEventListener("pointerup", finishDragging);
+
+    albumCover.addEventListener("pointercancel", finishDragging);
+
+    albumCover.addEventListener("lostpointercapture", () => {
+
+        if (isDragging) {
+            finishDragging();
+        }
+
+    });
+
+
+    /* =================================
+       CONTROL CON TECLADO
+    ================================= */
+
+    albumCover.addEventListener("keydown", (event) => {
+
+        if (event.key === "Enter" || event.key === " ") {
+
+            event.preventDefault();
+
+            const nearestFace =
+                Math.round(currentRotationY / 180) * 180;
+
+            updateRotation(nearestFace + 180, 0);
+
+        }
+
+    });
+
+}
