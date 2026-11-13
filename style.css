@@ -115,7 +115,7 @@ body {
     margin: 0;
 }
 
-/* CD */
+/* CD ORIGINAL */
 
 .disc {
     position: absolute;
@@ -137,6 +137,8 @@ body {
     background-repeat: no-repeat;
 
     box-shadow: 5px 8px 22px rgba(0, 0, 0, 0.18);
+
+    will-change: transform;
 }
 
 .disc-grooves,
@@ -174,7 +176,9 @@ body {
     }
 }
 
-/* FUNDA */
+/* =========================
+   FUNDA / CAJA DE CD 3D
+========================= */
 
 .album-cover {
     position: absolute;
@@ -184,10 +188,20 @@ body {
     height: 100%;
 
     z-index: 2;
+
     cursor: grab;
 
     transform-style: preserve-3d;
-    touch-action: pan-y;
+
+    /*
+       El área de la funda queda reservada
+       para el gesto de rotación.
+    */
+    touch-action: none;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .album-cover:active {
@@ -201,9 +215,60 @@ body {
     position: relative;
 
     transform-style: preserve-3d;
-    transform: rotateY(0deg);
+    transform: rotateX(0deg) rotateY(0deg);
 
     transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+
+    /*
+       Capas de sombra para simular
+       el grosor del plástico.
+    */
+    box-shadow:
+        1px 1px 0 rgba(255, 255, 255, 0.95),
+        2px 2px 0 rgba(175, 175, 175, 0.75),
+        3px 3px 0 rgba(255, 255, 255, 0.8),
+        4px 4px 0 rgba(150, 150, 150, 0.55),
+        5px 6px 0 rgba(255, 255, 255, 0.65),
+        7px 10px 18px rgba(0, 0, 0, 0.18);
+}
+
+/*
+   Capa posterior: da cuerpo a la funda
+   cuando se observa desde un ángulo.
+*/
+.cover-inner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: #d9d9d9;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+
+    transform: translateZ(-4px);
+
+    box-shadow:
+        1px 1px 0 #aaa,
+        2px 2px 0 #eee,
+        3px 3px 0 #aaa,
+        4px 4px 0 #eee;
+
+    pointer-events: none;
+}
+
+/*
+   Reflejo y borde del plástico frontal.
+*/
+.cover-inner::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+
+    border: 1px solid rgba(255, 255, 255, 0.48);
+
+    transform: translateZ(5px);
+
+    pointer-events: none;
+    z-index: 5;
 }
 
 .cover-front,
@@ -214,13 +279,27 @@ body {
     width: 100%;
     height: 100%;
 
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-
     background: #fff;
     overflow: hidden;
 
-    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.16);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.85);
+
+    /*
+       Las dos caras quedan separadas
+       ligeramente para generar profundidad.
+    */
+    transform-style: preserve-3d;
+}
+
+.cover-front {
+    transform: translateZ(4px);
+}
+
+.cover-back {
+    transform: rotateY(180deg) translateZ(4px);
 }
 
 .cover-front img,
@@ -230,13 +309,20 @@ body {
 
     display: block;
     object-fit: contain;
+
+    /*
+       Evita que el navegador intente
+       arrastrar las imágenes directamente.
+    */
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
 }
 
-.cover-back {
-    transform: rotateY(180deg);
-}
-
-/* QR INVISIBLE */
+/* =========================
+   QR INVISIBLE
+========================= */
 
 .qr-hotspot {
     position: absolute;
@@ -249,6 +335,26 @@ body {
 
     display: block;
     cursor: pointer;
+
+    z-index: 8;
+
+    /*
+       El enlace sigue siendo interactivo,
+       aunque la imagen no reciba el puntero.
+    */
+    pointer-events: auto;
+}
+
+/* =========================
+   ESTADO DURANTE EL ARRASTRE
+========================= */
+
+.album-cover.dragging {
+    cursor: grabbing;
+}
+
+.album-cover.dragging .cover-inner {
+    transition: none;
 }
 
 /* =========================
@@ -294,7 +400,9 @@ body {
     }
 }
 
-/* ACCESIBILIDAD */
+/* =========================
+   ACCESIBILIDAD
+========================= */
 
 @media (prefers-reduced-motion: reduce) {
     *,
