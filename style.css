@@ -21,7 +21,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 18px;
+    gap: 22px;
 
     overflow: hidden;
     position: relative;
@@ -33,13 +33,13 @@ body {
 
 .music-player {
     width: min(88vw, 440px);
-    min-height: 48px;
+    min-height: 60px;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
 
     position: relative;
     z-index: 5;
@@ -47,8 +47,8 @@ body {
 }
 
 .player-label {
-    font-size: 10px;
-    letter-spacing: 3.5px;
+    font-size: 12px;
+    letter-spacing: 4px;
     color: #777;
 }
 
@@ -60,7 +60,7 @@ body {
 }
 
 #song-title {
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 1px;
     line-height: 1.4;
     text-align: center;
@@ -73,8 +73,8 @@ body {
 }
 
 .player-controls button {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
 
     display: grid;
     place-items: center;
@@ -148,6 +148,8 @@ body {
 .disc-hole {
     display: none;
 }
+
+/* EXPULSIÓN EN ESCRITORIO */
 
 .disc.ejecting {
     animation: discEject 1.65s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
@@ -335,10 +337,10 @@ body {
 ========================= */
 
 .bottom-text {
-    margin-top: 2px;
+    margin-top: 3px;
 
-    font-size: 9px;
-    letter-spacing: 3.5px;
+    font-size: 11px;
+    letter-spacing: 4px;
     color: #777;
 
     text-align: center;
@@ -362,43 +364,43 @@ body {
 
     .page {
         padding: 24px 10px;
-        gap: 16px;
+        gap: 17px;
     }
 
-    /* REPRODUCTOR MÁS GRANDE */
+    /* REPRODUCTOR */
 
     .music-player {
         width: 96vw;
-        min-height: 64px;
-        gap: 9px;
+        min-height: 70px;
+        gap: 10px;
     }
 
     .player-label {
-        font-size: 13px;
+        font-size: 14px;
         letter-spacing: 4.5px;
     }
 
     .player-main {
-        gap: 16px;
+        gap: 13px;
     }
 
     #song-title {
-        font-size: 14px;
-        letter-spacing: 1.2px;
-        max-width: 230px;
+        font-size: 13px;
+        letter-spacing: 0.8px;
+        max-width: 190px;
     }
 
     .player-controls {
-        gap: 10px;
+        gap: 8px;
     }
 
     .player-controls button {
-        width: 39px;
-        height: 39px;
-        font-size: 13px;
+        width: 36px;
+        height: 36px;
+        font-size: 12px;
     }
 
-    /* ESPACIO PARA FUNDA Y DISCO */
+    /* CONTENEDOR DEL ÁLBUM */
 
     .album-container {
         width: 100vw;
@@ -407,8 +409,8 @@ body {
 
     /*
        FUNDA:
-       Un poco más estrecha para dejar
-       espacio visible al CD.
+       Conserva su tamaño y se coloca
+       hacia el lado izquierdo.
     */
 
     .album-cover {
@@ -421,15 +423,15 @@ body {
 
     /*
        CD:
-       Se posiciona desde la izquierda.
-       Su posición final deja visible
-       aproximadamente el 27 % del disco.
+       Comienza casi oculto detrás de la funda.
+       Termina con una parte claramente visible
+       a la derecha, sin salir de la pantalla.
     */
 
     .disc {
         width: 82%;
 
-        left: -2%;
+        left: 0;
         right: auto;
     }
 
@@ -438,7 +440,7 @@ body {
     }
 
     .disc.spinning {
-        left: 15%;
+        left: 18%;
         right: auto;
 
         animation: discRotation 12s linear infinite;
@@ -446,19 +448,19 @@ body {
 
     @keyframes mobileDiscEject {
         from {
-            left: -2%;
+            left: 0;
         }
 
         to {
-            left: 15%;
+            left: 18%;
         }
     }
 
-    /* DRAG TO DISCOVER MÁS GRANDE */
+    /* INDICACIÓN INFERIOR */
 
     .bottom-text {
-        margin-top: 4px;
-        font-size: 11px;
+        margin-top: 3px;
+        font-size: 12px;
         letter-spacing: 4px;
     }
 }
@@ -471,15 +473,17 @@ body {
 
     .player-label {
         font-size: 12px;
+        letter-spacing: 3.5px;
     }
 
     #song-title {
-        font-size: 12px;
+        font-size: 11px;
+        max-width: 160px;
     }
 
     .player-controls button {
-        width: 35px;
-        height: 35px;
+        width: 33px;
+        height: 33px;
     }
 
     .bottom-text {
@@ -493,17 +497,6 @@ body {
 ========================= */
 
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-    }
-
-    .disc.ejecting,
-    .disc.spinning {
-        animation: none !important;
-    }
-
     .cover-inner {
         transition: none;
     }
