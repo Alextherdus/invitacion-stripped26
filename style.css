@@ -39,7 +39,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 7px;
 
     position: relative;
     z-index: 5;
@@ -47,8 +47,8 @@ body {
 }
 
 .player-label {
-    font-size: 9px;
-    letter-spacing: 3px;
+    font-size: 10px;
+    letter-spacing: 3.5px;
     color: #777;
 }
 
@@ -60,7 +60,7 @@ body {
 }
 
 #song-title {
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 1px;
     line-height: 1.4;
     text-align: center;
@@ -73,8 +73,8 @@ body {
 }
 
 .player-controls button {
-    width: 27px;
-    height: 27px;
+    width: 30px;
+    height: 30px;
 
     display: grid;
     place-items: center;
@@ -84,7 +84,7 @@ body {
     background: transparent;
 
     color: #222;
-    font-size: 10px;
+    font-size: 11px;
     cursor: pointer;
 
     transition: background 0.2s ease, transform 0.2s ease;
@@ -337,8 +337,8 @@ body {
 .bottom-text {
     margin-top: 2px;
 
-    font-size: 8px;
-    letter-spacing: 3px;
+    font-size: 9px;
+    letter-spacing: 3.5px;
     color: #777;
 
     text-align: center;
@@ -362,41 +362,75 @@ body {
 
     .page {
         padding: 24px 10px;
-        gap: 13px;
+        gap: 16px;
     }
+
+    /* REPRODUCTOR MÁS GRANDE */
 
     .music-player {
-        width: 94vw;
+        width: 96vw;
+        min-height: 64px;
+        gap: 9px;
     }
 
-    /*
-       Se amplía el espacio de trabajo
-       horizontal para que el CD no quede
-       recortado por el borde del teléfono.
-    */
+    .player-label {
+        font-size: 13px;
+        letter-spacing: 4.5px;
+    }
+
+    .player-main {
+        gap: 16px;
+    }
+
+    #song-title {
+        font-size: 14px;
+        letter-spacing: 1.2px;
+        max-width: 230px;
+    }
+
+    .player-controls {
+        gap: 10px;
+    }
+
+    .player-controls button {
+        width: 39px;
+        height: 39px;
+        font-size: 13px;
+    }
+
+    /* ESPACIO PARA FUNDA Y DISCO */
+
     .album-container {
         width: 100vw;
         aspect-ratio: 1 / 1;
     }
 
     /*
-       La funda conserva un tamaño grande,
-       pero deja un espacio lateral visible.
+       FUNDA:
+       Un poco más estrecha para dejar
+       espacio visible al CD.
     */
+
     .album-cover {
-        width: 84%;
+        width: 75%;
         height: 100%;
-        left: 0;
+
+        left: 3%;
         right: auto;
     }
 
     /*
-       El disco utiliza la misma referencia
-       del contenedor, no la de la portada.
+       CD:
+       Se posiciona desde la izquierda.
+       Su posición final deja visible
+       aproximadamente el 27 % del disco.
     */
+
     .disc {
         width: 82%;
-        right: -20%;
+
+        left: -2%;
+        right: auto;
     }
 
     .disc.ejecting {
@@ -404,28 +438,53 @@ body {
     }
 
     .disc.spinning {
-        right: -20%;
+        left: 15%;
+        right: auto;
+
         animation: discRotation 12s linear infinite;
     }
 
     @keyframes mobileDiscEject {
         from {
-            right: 10%;
+            left: -2%;
         }
 
         to {
-            right: -20%;
+            left: 15%;
         }
     }
 
+    /* DRAG TO DISCOVER MÁS GRANDE */
+
+    .bottom-text {
+        margin-top: 4px;
+        font-size: 11px;
+        letter-spacing: 4px;
+    }
+}
+
+/* =========================
+   TELÉFONOS PEQUEÑOS
+========================= */
+
+@media (max-width: 360px) {
+
+    .player-label {
+        font-size: 12px;
+    }
+
     #song-title {
-        font-size: 9px;
-        max-width: 210px;
+        font-size: 12px;
+    }
+
+    .player-controls button {
+        width: 35px;
+        height: 35px;
     }
 
     .bottom-text {
-        font-size: 7px;
-        letter-spacing: 2.5px;
+        font-size: 10px;
+        letter-spacing: 3px;
     }
 }
 
