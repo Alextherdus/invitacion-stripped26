@@ -28,7 +28,7 @@ body {
 }
 
 /* =========================
-   REPRODUCTOR SUPERIOR
+   REPRODUCTOR
 ========================= */
 
 .music-player {
@@ -101,7 +101,7 @@ body {
 }
 
 /* =========================
-   ÁLBUM Y CD
+   ÁLBUM
 ========================= */
 
 .album-container {
@@ -115,12 +115,13 @@ body {
     margin: 0;
 }
 
-/* CD ORIGINAL */
+/* =========================
+   CD ORIGINAL
+========================= */
 
 .disc {
     position: absolute;
 
-    /* AUMENTO DEL TAMAÑO */
     width: 82%;
     aspect-ratio: 1 / 1;
 
@@ -148,13 +149,9 @@ body {
     display: none;
 }
 
-/* EXPULSIÓN */
-
 .disc.ejecting {
     animation: discEject 1.65s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
 }
-
-/* POSICIÓN FINAL MÁS CERCANA A LA FUNDA */
 
 .disc.spinning {
     right: -30%;
@@ -182,7 +179,7 @@ body {
 }
 
 /* =========================
-   FUNDA / CAJA DE CD 3D
+   FUNDA 3D
 ========================= */
 
 .album-cover {
@@ -348,12 +345,23 @@ body {
 }
 
 /* =========================
-   RESPONSIVE
+   TABLET
+========================= */
+
+@media (min-width: 481px) and (max-width: 800px) {
+    .album-container {
+        width: 88vw;
+    }
+}
+
+/* =========================
+   TELÉFONOS
 ========================= */
 
 @media (max-width: 480px) {
+
     .page {
-        padding: 24px 14px;
+        padding: 24px 10px;
         gap: 13px;
     }
 
@@ -361,8 +369,53 @@ body {
         width: 94vw;
     }
 
+    /*
+       Se amplía el espacio de trabajo
+       horizontal para que el CD no quede
+       recortado por el borde del teléfono.
+    */
     .album-container {
-        width: 94vw;
+        width: 100vw;
+        aspect-ratio: 1 / 1;
+    }
+
+    /*
+       La funda conserva un tamaño grande,
+       pero deja un espacio lateral visible.
+    */
+    .album-cover {
+        width: 84%;
+        height: 100%;
+        left: 0;
+        right: auto;
+    }
+
+    /*
+       El disco utiliza la misma referencia
+       del contenedor, no la de la portada.
+    */
+    .disc {
+        width: 82%;
+        right: -20%;
+    }
+
+    .disc.ejecting {
+        animation: mobileDiscEject 1.65s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+    }
+
+    .disc.spinning {
+        right: -20%;
+        animation: discRotation 12s linear infinite;
+    }
+
+    @keyframes mobileDiscEject {
+        from {
+            right: 10%;
+        }
+
+        to {
+            right: -20%;
+        }
     }
 
     #song-title {
