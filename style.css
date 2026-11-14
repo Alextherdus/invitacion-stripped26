@@ -90,7 +90,7 @@ body {
     outline-offset: 3px;
 }
 
-/* CONTENEDOR DEL ÁLBUM */
+/* ÁLBUM */
 
 .album-container {
     width: min(88vw, 440px);
@@ -250,7 +250,7 @@ body {
     -webkit-user-select: none;
 }
 
-/* QR INVISIBLE */
+/* QR */
 
 .qr-hotspot {
     position: absolute;
@@ -337,11 +337,7 @@ body {
         aspect-ratio: 1 / 1;
     }
 
-    /*
-       CORRECCIÓN:
-       La funda mide 75% de ancho Y 75% de alto.
-       Así conserva su forma cuadrada.
-    */
+    /* FUNDA CUADRADA */
 
     .album-cover {
         width: 75%;
@@ -351,15 +347,11 @@ body {
         right: auto;
     }
 
-    /*
-       CD detrás de la funda.
-       Se desplaza hacia la derecha,
-       conservando su forma circular.
-    */
+    /* CD REDUCIDO */
 
     .disc {
-        width: 82%;
-        left: 0;
+        width: 68%;
+        left: 8%;
         right: auto;
     }
 
@@ -368,18 +360,18 @@ body {
     }
 
     .disc.spinning {
-        left: 18%;
+        left: 25%;
         right: auto;
         animation: discRotation 12s linear infinite;
     }
 
     @keyframes mobileDiscEject {
         from {
-            left: 0;
+            left: 8%;
         }
 
         to {
-            left: 18%;
+            left: 25%;
         }
     }
 
